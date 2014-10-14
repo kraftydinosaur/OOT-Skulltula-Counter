@@ -1,6 +1,5 @@
 from ctypes import *
 from ctypes.wintypes import *
-from threading import Thread
 from Tkinter import *
 
 OpenProcess = windll.kernel32.OpenProcess
@@ -43,6 +42,7 @@ class App(Frame):
         self.fontsize = 16
         self.fontcolor = "#FFF"
         self.bold = 0
+        self.pos = "left"
         self.updateInterval = 100
 
         self.fontstyle = ""
@@ -50,8 +50,10 @@ class App(Frame):
             self.fontstyle = "bold"
 
     def setup(self):
+        root.wm_title("OOT Skulltula Counter")
         root.config(bg=self.bgcolor)
         photo = PhotoImage(file="icon.gif")
+        root.tk.call('wm', 'iconphoto', root._w, photo)
         w = Label(root, image=photo)
         w.photo = photo
         w.config(bg=self.bgcolor)
@@ -60,8 +62,8 @@ class App(Frame):
                         font=(self.font, self.fontsize, self.fontstyle))
         textLab.config(bg=self.bgcolor, fg=self.fontcolor)
 
-        w.pack()
-        textLab.pack()
+        w.pack(side=self.pos)
+        textLab.pack(side=self.pos)
 
     def update(self):
         self.skullCount.set(readByte(SKULL_ADD, processHandle))
