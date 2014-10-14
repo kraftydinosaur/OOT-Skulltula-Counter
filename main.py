@@ -1,9 +1,7 @@
-import ctypes
 from ctypes import *
 from ctypes.wintypes import *
 from threading import Thread
 from Tkinter import *
-from time import sleep
 
 OpenProcess = windll.kernel32.OpenProcess
 ReadProcessMemory = windll.kernel32.ReadProcessMemory
@@ -25,11 +23,10 @@ def findPID(search):
 def readByte(address, handle):
     """Reads byte at given address in given process handle and returns value"""
     if ReadProcessMemory(handle, address, buffer, 1, byref(bytesRead)):
-        memmove(ctypes.byref(val), buffer, ctypes.sizeof(val))
+        memmove(byref(val), buffer, sizeof(val))
         return val.value
     else:
         return 0
-    sleep(1)
 
 
 buffer = c_char_p(b"")
@@ -45,6 +42,12 @@ class App(Frame):
         self.font = "Helvetica"
         self.fontsize = 16
         self.fontcolor = "#FFF"
+        self.bold = 0
+        self.updateInterval = 100
+
+        self.fontstyle = ""
+        if self.bold:
+            self.fontstyle = "bold"
 
     def setup(self):
         root.config(bg=self.bgcolor)
@@ -54,15 +57,16 @@ class App(Frame):
         w.config(bg=self.bgcolor)
         self.skullCount = StringVar()
         textLab = Label(root, textvariable=self.skullCount,
-            font=(self.font, self.fontsize))
+                        font=(self.font, self.fontsize, self.fontstyle))
         textLab.config(bg=self.bgcolor, fg=self.fontcolor)
+
         w.pack()
         textLab.pack()
 
     def update(self):
         self.skullCount.set(readByte(SKULL_ADD, processHandle))
         self.update_idletasks()
-        self.after(100, self.update)
+        self.after(self.updateInterval, self.update)
 
     def __init__(self, master=None):
         Frame.__init__(self, master)
