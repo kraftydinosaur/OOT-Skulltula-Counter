@@ -40,13 +40,21 @@ processHandle = OpenProcess(PROC_READ, False, findPID("mupen64"))
 
 class App(Frame):
 
+    def getConf(self):
+        self.bgcolor = "#F31"
+
     def setup(self):
+        root.config(bg=self.bgcolor)
         photo = PhotoImage(file="icon.gif")
         w = Label(root, image=photo)
         w.photo = photo
         w.pack()
+        w.config(bg=self.bgcolor)
         self.skullCount = StringVar()
-        Label(root, textvariable=self.skullCount).pack()
+        textLab = Label(root, textvariable=self.skullCount)
+        textLab.pack()
+        textLab.config(bg=self.bgcolor)
+
 
     def update(self):
         self.skullCount.set(readByte(SKULL_ADD, processHandle))
@@ -55,7 +63,8 @@ class App(Frame):
 
     def __init__(self, master=None):
         Frame.__init__(self, master)
-        self.pack()
+        #self.pack()
+        self.getConf()
         self.setup()
 
 root = Tk()
