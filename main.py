@@ -11,6 +11,17 @@ ReadProcessMemory = windll.kernel32.ReadProcessMemory
 CloseHandle = windll.kernel32.CloseHandle
 
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
 def findPID(search):
     """Finds Process that contains PROCNAME and returns pid"""
     import psutil
@@ -68,7 +79,7 @@ class App(Frame):
     def setup(self):
         root.wm_title("OOT Skulltula Counter")
         root.config(bg=self.bgcolor)
-        photo = PhotoImage(file="icon.gif")
+        photo = PhotoImage(file=resource_path("icon.gif"))
         root.tk.call('wm', 'iconphoto', root._w, photo)
         w = Label(root, image=photo)
         w.photo = photo
@@ -111,7 +122,7 @@ class App(Frame):
         self.setup()
 
 root = Tk()
-root.resizable(0,0)
+root.resizable(0, 0)
 app = App(master=root)
 app.update()
 app.mainloop()
