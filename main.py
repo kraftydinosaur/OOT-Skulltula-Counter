@@ -1,13 +1,14 @@
 from ctypes import *
 from ctypes.wintypes import *
 from Tkinter import *
+import ConfigParser
+import os.path
+import tkMessageBox
+import sys
 
 OpenProcess = windll.kernel32.OpenProcess
 ReadProcessMemory = windll.kernel32.ReadProcessMemory
 CloseHandle = windll.kernel32.CloseHandle
-
-PROC_READ = 0x10
-SKULL_ADD = 0xA062E2
 
 
 def findPID(search):
@@ -31,23 +32,38 @@ def readByte(address, handle):
 buffer = c_char_p(b"")
 val = c_ubyte()
 bytesRead = c_long(0)
-processHandle = OpenProcess(PROC_READ, False, findPID("mupen64"))
+processHandle = OpenProcess(0x10, False, findPID("mupen64"))
 
 
 class App(Frame):
 
     def getConf(self):
-        self.bgcolor = "#000"
-        self.font = "Helvetica"
-        self.fontsize = 16
-        self.fontcolor = "#FFF"
-        self.bold = 0
-        self.pos = "left"
-        self.updateInterval = 100
+        conf = ConfigParser.ConfigParser()
+        try:
+            if os.path.isfile("user.conf"):
+                conf.read("user.conf")
+            else:
+                conf.read("default.conf")
 
-        self.fontstyle = ""
-        if self.bold:
-            self.fontstyle = "bold"
+            # Style
+            self.bgcolor = conf.get("Style", "BackgroundColor")
+            self.font = conf.get("Style", "Font")
+            self.fontsize = conf.get("Style", "FontSize")
+            self.fontcolor = conf.get("Style", "FontColor")
+            bold = conf.get("Style", "Bold")
+            self.pos = conf.get("Style", "Position")
+
+            self.fontstyle = ""
+            if bold:
+                self.fontstyle = "bold"
+
+            # Function
+            self.updateInterval = conf.get("Function", "UpdateInterval")
+            self.skullAdd = int(conf.get("Function", "SkullAddress"), 16)
+        except:
+            tkMessageBox.showerror("Error", "Error reading config file.")
+            root.destroy()
+            sys.exit()
 
     def setup(self):
         root.wm_title("OOT Skulltula Counter")
@@ -66,7 +82,7 @@ class App(Frame):
         textLab.pack(side=self.pos)
 
     def update(self):
-        self.skullCount.set(readByte(SKULL_ADD, processHandle))
+        self.skullCount.set(readByte(self.skullAdd, processHandle))
         self.update_idletasks()
         self.after(self.updateInterval, self.update)
 
