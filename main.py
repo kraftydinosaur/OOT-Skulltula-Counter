@@ -81,10 +81,29 @@ class App(Frame):
         w.pack(side=self.pos)
         textLab.pack(side=self.pos)
 
+        root.bind("<ButtonPress-1>", self.StartMove)
+        root.bind("<ButtonRelease-1>", self.StopMove)
+        root.bind("<B1-Motion>", self.OnMotion)
+
     def update(self):
         self.skullCount.set(readByte(self.skullAdd, processHandle))
         self.update_idletasks()
         self.after(self.updateInterval, self.update)
+
+    def StartMove(self, event):
+        self.x = event.x
+        self.y = event.y
+
+    def StopMove(self, event):
+        self.x = None
+        self.y = None
+
+    def OnMotion(self, event):
+        deltax = event.x - self.x
+        deltay = event.y - self.y
+        x = root.winfo_x() + deltax
+        y = root.winfo_y() + deltay
+        root.geometry("+%s+%s" % (x, y))
 
     def __init__(self, master=None):
         Frame.__init__(self, master)
@@ -92,6 +111,7 @@ class App(Frame):
         self.setup()
 
 root = Tk()
+root.resizable(0,0)
 app = App(master=root)
 app.update()
 app.mainloop()

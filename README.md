@@ -61,6 +61,5 @@ should duplicate the file and rename the new file to **"user.conf"**.
 | EUR v1.1 | N/A          |
 | EUR v1.2 | N/A          |
 
-**If the address for your rom version is not available, just ask. Alternatively
-you can use a program such as [MHS](http://memoryhacking.com/download.php) to
-find the value yourself.  **
+**If the address for your rom version is not available, just ask.**
+**Alternatively you can use a program such as [MHS](http://memoryhacking.com/download.php) to find the value yourself. **
