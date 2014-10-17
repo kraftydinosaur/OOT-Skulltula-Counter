@@ -1,4 +1,4 @@
-# ![](icon.gif)--OOT Skulltula Counter--![](icon.gif)
+# ![](icon.gif) OOT Skulltula Counter ![](icon.gif)
 
 Skulltula counter for Zelda Ocarina of Time written in Python.
 Mainly intended for streaming or just for fun.
@@ -47,7 +47,7 @@ should duplicate the file and rename the new file to **"user.conf"**.
 | Left     | ![](readme/gui.png) | Right    | ![](readme/right.png)  |
 | Top      | ![](readme/top.png) | Bottom   | ![](readme/bottom.png) |
 
-### Skulltula Address
+### Skulltula Addresses
 
 | Version  | Address      |
 | -------- | ------------ |
