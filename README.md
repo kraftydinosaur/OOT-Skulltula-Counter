@@ -49,17 +49,15 @@ should duplicate the file and rename the new file to **"user.conf"**.
 
 ### Skulltula Addresses
 
-| Version  | Address      |
-| -------- | ------------ |
-| Jap v1.0 | **0xA062E2** |
-| Jap v1.1 | N/A          |
-| Jap v1.2 | N/A          |
-| NA  v1.0 | **0xA06122** |
-| NA  v1.1 | N/A          |
-| NA  v1.2 | **0xA067D2** |
-| EUR v1.0 | **0xA03F22** |
-| EUR v1.1 | N/A          |
-| EUR v1.2 | N/A          |
+| Version   | Address      |
+| --------  | ------------ |
+| NTSC v1.0 | **0xA06122** |
+| NTSC v1.1 | **0xA062E2** |
+| NTSC v1.2 | **0xA067D2** |
+| PAL v1.0  | **0xA03F22** |
+| PAL v1.1  | **0xA03F62** |
+
+**Japanese and North American regions use NTSC, while Europe uses PAL.**
 
 **If the address for your rom version is not available, just ask.
 Alternatively you can use a program such as [MHS](http://memoryhacking.com/download.php) to find the value yourself.**
